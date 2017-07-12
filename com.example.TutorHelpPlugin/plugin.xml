@@ -1,0 +1,444 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension point="org.eclipse.debug.ui.consoleLineTrackers">
+     <consoleLineTracker
+        class="com.example.tutorhelpplugin.launching.ASUTutorHelpLogTracker"
+        processType="java"
+        id="com.example.tutorhelpplugin.launching.ASUTutorHelpLogTracker">
+     </consoleLineTracker>
+   </extension>
+
+   <extension point="org.eclipse.debug.core.launchConfigurationTypes">
+    <launchConfigurationType
+        name="ASU Tutor Help - Java"
+        delegate="com.example.tutorhelpplugin.launching.ASUTutorHelpJavaLaunchConfigurattionDelegate"
+        modes="run, debug"               
+        id="com.example.tutorhelpplugin.launching.asuTutorHelpJava">        
+    </launchConfigurationType>
+   </extension>
+   <extension point="org.eclipse.debug.ui.launchConfigurationTypeImages">
+    <launchConfigurationTypeImage
+        icon="icons/yy.png"
+        configTypeID="com.example.tutorhelpplugin.launching.asuTutorHelpJava"
+        id="com.example.TutorHelpPlugin.launching.launchConfigurationTypeImage.asuTutorHelpJava">
+    </launchConfigurationTypeImage>
+   </extension>
+   
+   <extension point="org.eclipse.debug.ui.launchConfigurationTabGroups">
+    <launchConfigurationTabGroup
+        type="com.example.tutorhelpplugin.launching.asuTutorHelpJava"
+        class="com.example.tutorhelpplugin.launching.ASUTutorHelpJavaTabGroup"
+        id="com.example.tutorhelpplugin.launching.ASUTutorHelpJavaTabGroup">
+    </launchConfigurationTabGroup>
+   </extension>
+   
+   <extension point="org.eclipse.debug.ui.launchShortcuts">
+    <shortcut
+        id="com.example.tutorhelpplugin.launching.ASUTutorHelpJavaLaunchShortcut"
+        class="com.example.tutorhelpplugin.launching.ASUTutorHelpJavaLaunchShortcut"
+        label="ASUTutorHelp:Java"
+        icon="icons/yy.png"
+        modes="run, debug">
+            <perspective id="org.eclipse.jdt.ui.JavaPerspective"/>
+            <perspective id="org.eclipse.jdt.ui.JavaHierarchyPerspective"/>
+            <perspective id="org.eclipse.jdt.ui.JavaBrowsingPerspective"/>
+            <perspective id="org.eclipse.debug.ui.DebugPerspective"/>
+    </shortcut>
+   </extension>
+   
+   <extension
+         point="org.eclipse.ui.commands">
+      <category
+            name="Sample Category"
+            id="com.example.TutorHelpPlugin.commands.category">
+      </category>
+      <command
+            name="Sample Command"
+            categoryId="com.example.TutorHelpPlugin.commands.category"
+            id="com.example.TutorHelpPlugin.commands.sampleCommand">
+      </command>
+      <category
+            name="Sample Project Nature commands"
+            id="com.example.TutorHelpPlugin.sampleNature.category">
+      </category>
+      <command
+            name="Add/RemoveSample Project Nature"
+            defaultHandler="com.example.tutorhelpplugin.builder.AddRemoveSampleNatureHandler"
+            categoryId="com.example.TutorHelpPlugin.sampleNature.category"
+            id="com.example.TutorHelpPlugin.addRemoveSampleNature">
+      </command>
+   </extension>
+   <extension
+         point="org.eclipse.ui.handlers">
+      <handler
+            commandId="com.example.TutorHelpPlugin.commands.sampleCommand"
+            class="com.example.tutorhelpplugin.handlers.SampleHandler">
+      </handler>
+   </extension>
+   <extension
+         point="org.eclipse.ui.bindings">
+      <key
+            commandId="com.example.TutorHelpPlugin.commands.sampleCommand"
+            contextId="org.eclipse.ui.contexts.window"
+            sequence="M1+6"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration">
+      </key>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            locationURI="menu:org.eclipse.ui.main.menu?after=additions">
+         <menu
+               label="ASU_Tutor"
+               mnemonic="M"
+               id="com.example.TutorHelpPlugin.menus.sampleMenu">
+            <command
+                  label="ASU_Tutor_Run!"
+                  commandId="com.example.TutorHelpPlugin.commands.sampleCommand"
+                  mnemonic="S"
+                  id="com.example.TutorHelpPlugin.menus.sampleCommand">
+            </command>
+         </menu>
+      </menuContribution>
+      <menuContribution
+            locationURI="toolbar:org.eclipse.ui.main.toolbar?after=additions">
+         <toolbar
+               id="com.example.TutorHelpPlugin.toolbars.sampleToolbar">
+            <command
+                  commandId="com.example.TutorHelpPlugin.commands.sampleCommand"
+                  icon="icons/yy.png"
+                  tooltip="Run ASU Tutor Plugin"
+                  id="com.example.TutorHelpPlugin.toolbars.sampleCommand">
+            </command>
+         </toolbar>
+      </menuContribution>
+      <menuContribution
+            locationURI="popup:org.eclipse.ui.projectConfigure?after=additions">
+         <command
+               commandId="com.example.TutorHelpPlugin.addRemoveSampleNature"
+               label="Disable Sample builder"
+               style="push">
+            <visibleWhen
+                  checkEnabled="false">
+               <with
+                     variable="selection">
+                  <count
+                        value="1">
+                  </count>
+                  <iterate>
+                     <adapt
+                           type="org.eclipse.core.resources.IProject">
+                        <test
+                              value="com.example.TutorHelpPlugin.sampleNature"
+                              property="org.eclipse.core.resources.projectNature">
+                        </test>
+                     </adapt>
+                  </iterate>
+               </with>
+            </visibleWhen>
+         </command>
+         <command
+               commandId="com.example.TutorHelpPlugin.addRemoveSampleNature"
+               label="Enable Sample builder"
+               style="push">
+            <visibleWhen
+                  checkEnabled="false">
+               <with
+                     variable="selection">
+                  <count
+                        value="1">
+                  </count>
+                  <iterate>
+                     <adapt
+                           type="org.eclipse.core.resources.IProject">
+                        <not>
+                           <test
+                                 value="com.example.TutorHelpPlugin.sampleNature"
+                                 property="org.eclipse.core.resources.projectNature">
+                           </test>
+                        </not>
+                     </adapt>
+                  </iterate>
+               </with>
+            </visibleWhen>
+         </command>
+      </menuContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.propertyPages">
+      <page
+            name="Sample Page"
+            nameFilter="*.*"
+            class="com.example.tutorhelpplugin.properties.SamplePropertyPage"
+            id="com.example.tutorhelpplugin.properties.samplePropertyPage">
+         <enabledWhen>
+            <instanceof
+                  value="org.eclipse.core.resources.IFile">
+            </instanceof>
+         </enabledWhen>
+      </page>
+   </extension>
+   <extension
+         point="org.eclipse.ui.editors">
+      <editor
+            name="Sample XML Editor"
+            extensions="xml"
+            icon="icons/sample.gif"
+            contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor"
+            class="com.example.tutorhelpplugin.editors.XMLEditor"
+            id="com.example.tutorhelpplugin.editors.XMLEditor">
+      </editor>
+      <editor
+            name="Sample Multi-page Editor"
+            extensions="mpe"
+            icon="icons/sample.gif"
+            contributorClass="com.example.tutorhelpplugin.editors.MultiPageEditorContributor"
+            class="com.example.tutorhelpplugin.editors.MultiPageEditor"
+            id="com.example.tutorhelpplugin.editors.MultiPageEditor">
+      </editor>
+   </extension>
+   <extension
+         point="org.eclipse.ui.popupMenus">
+      <objectContribution
+            objectClass="org.eclipse.core.resources.IFile"
+            id="com.example.TutorHelpPlugin.contribution1">
+         <menu
+               label="New Submenu"
+               path="additions"
+               id="com.example.TutorHelpPlugin.menu1">
+            <separator
+                  name="group1">
+            </separator>
+         </menu>
+         <action
+               label="New Action"
+               class="com.example.tutorhelpplugin.popup.actions.NewAction"
+               menubarPath="com.example.TutorHelpPlugin.menu1/group1"
+               enablesFor="1"
+               id="com.example.TutorHelpPlugin.newAction">
+         </action>
+      </objectContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.views">
+      <view
+            name="My Common Navigator"
+            icon="icons/sample.gif"
+            class="org.eclipse.ui.navigator.CommonNavigator"
+            id="com.example.test">
+      </view>
+      <category
+            name="Assignments Category"
+            id="com.example.TutorHelpPlugin">
+      </category>
+      <view
+            name="Assignment Questions View"
+            icon="icons/yy.png"
+            category="com.example.TutorHelpPlugin"
+            class="com.example.tutorhelpplugin.views.SampleView"
+            id="com.example.tutorhelpplugin.views.SampleView">
+      </view>
+   </extension>
+   <extension
+         point="org.eclipse.ui.navigator.viewer">
+      <viewerActionBinding
+            viewerId="com.example.test">
+         <includes>
+            <actionExtension
+                  pattern="org.eclipse.ui.navigator.resources.*">
+            </actionExtension>
+         </includes>
+      </viewerActionBinding>
+      <viewerContentBinding
+            viewerId="com.example.test">
+         <includes>
+            <contentExtension
+                  pattern="org.eclipse.ui.navigator.resourceContent">
+            </contentExtension>
+            <contentExtension
+                  pattern="org.eclipse.ui.navigator.resources.filters.*">
+            </contentExtension>
+            <contentExtension
+                  pattern="org.eclipse.ui.navigator.resources.linkHelper">
+            </contentExtension>
+            <contentExtension
+                  pattern="org.eclipse.ui.navigator.resources.workingSets">
+            </contentExtension>
+         </includes>
+      </viewerContentBinding>
+   </extension>
+   <extension
+         point="org.eclipse.ui.perspectiveExtensions">
+      <perspectiveExtension
+            targetID="org.eclipse.ui.resourcePerspective">
+         <view
+               ratio="0.5"
+               relative="org.eclipse.ui.navigator.ProjectExplorer"
+               relationship="stack"
+               id="com.example.test">
+         </view>
+      </perspectiveExtension>
+      <perspectiveExtension
+            targetID="org.eclipse.jdt.ui.JavaPerspective">
+         <view
+               ratio="0.5"
+               relative="org.eclipse.ui.views.ProblemView"
+               relationship="right"
+               id="com.example.tutorhelpplugin.views.SampleView">
+         </view>
+      </perspectiveExtension>
+   </extension>
+   <extension
+         point="org.eclipse.help.contexts">
+      <contexts
+            file="contexts.xml">
+      </contexts>
+   </extension>
+   <extension
+         point="org.eclipse.ui.newWizards">
+      <category
+            name="Sample Wizards"
+            id="com.example.TutorHelpPlugin">
+      </category>
+      <wizard
+            name="Multi-page Editor file"
+            icon="icons/sample.gif"
+            category="com.example.TutorHelpPlugin"
+            class="com.example.tutorhelpplugin.wizards.SampleNewWizard"
+            id="com.example.tutorhelpplugin.wizards.SampleNewWizard">
+      </wizard>
+   </extension>
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            name="Sample Preferences"
+            class="com.example.tutorhelpplugin.preferences.SamplePreferencePage"
+            id="com.example.tutorhelpplugin.preferences.SamplePreferencePage">
+      </page>
+   </extension>
+   <extension
+         point="org.eclipse.core.runtime.preferences">
+      <initializer
+            class="com.example.tutorhelpplugin.preferences.PreferenceInitializer">
+      </initializer>
+   </extension>
+   <extension
+         point="org.eclipse.help.toc">
+      <toc
+            file="toc.xml">
+      </toc>
+      <toc
+            file="testToc.xml"
+            primary="true">
+      </toc>
+   </extension>
+   <extension
+         point="org.eclipse.ui.decorators">
+      <decorator
+            lightweight="true"
+            location="BOTTOM_RIGHT"
+            adaptable="true"
+            label="Resource Decorator"
+            icon="icons/sample_decorator.gif"
+            state="true"
+            id="com.example.TutorHelpPlugin.decorator">
+         <enablement>
+            <and>
+               <objectClass
+                     name="org.eclipse.core.resources.IResource">
+               </objectClass>
+               <or>
+                  <objectClass
+                        name="org.eclipse.core.resources.IProject">
+                  </objectClass>
+                  <objectClass
+                        name="org.eclipse.core.resources.IFile">
+                  </objectClass>
+               </or>
+            </and>
+         </enablement>
+      </decorator>
+   </extension>
+   <extension
+         point="org.eclipse.ui.importWizards">
+      <category
+            name="Sample File Import"
+            id="com.example.tutorhelpplugin.importWizards.sampleCategory">
+      </category>
+      <wizard
+            name="Import File"
+            icon="icons/sample.gif"
+            category="com.example.tutorhelpplugin.importWizards.sampleCategory"
+            class="com.example.tutorhelpplugin.importWizards.ImportWizard"
+            id="com.example.tutorhelpplugin.importWizards.ImportWizard">
+         <description>
+            Import a file from the local file system into the workspace.
+         </description>
+      </wizard>
+   </extension>
+   <extension
+         point="org.eclipse.ui.intro.configExtension">
+      <configExtension
+            content="intro/sample.xml"
+            configId="org.eclipse.ui.intro.universalConfig">
+      </configExtension>
+   </extension>
+   <extension
+         point="org.eclipse.ui.perspectives">
+      <perspective
+            name="Release Engineering"
+            icon="icons/releng_gears.gif"
+            class="com.example.tutorhelpplugin.perspectives.RelEngPerspective"
+            id="com.example.tutorhelpplugin.perspectives.RelEngPerspective">
+      </perspective>
+   </extension>
+   <extension
+         id="sampleBuilder"
+         name="Sample Project Builder"
+         point="org.eclipse.core.resources.builders">
+      <builder
+            hasNature="true">
+         <run
+               class="com.example.tutorhelpplugin.builder.SampleBuilder">
+         </run>
+      </builder>
+   </extension>
+   <extension
+         id="sampleNature"
+         name="Sample Project Nature"
+         point="org.eclipse.core.resources.natures">
+      <runtime>
+         <run
+               class="com.example.tutorhelpplugin.builder.SampleNature">
+         </run>
+      </runtime>
+      <builder
+            id="com.example.TutorHelpPlugin.sampleBuilder">
+      </builder>
+   </extension>
+   <extension
+         id="xmlProblem"
+         name="XML Problem"
+         point="org.eclipse.core.resources.markers">
+      <super
+            type="org.eclipse.core.resources.problemmarker">
+      </super>
+      <persistent
+            value="true">
+      </persistent>
+   </extension>
+   <extension
+         point="org.eclipse.ui.splashHandlers">
+      <splashHandler
+            class="com.example.tutorhelpplugin.splashHandlers.InteractiveSplashHandler"
+            id="com.example.tutorhelpplugin.splashHandlers.interactive">
+      </splashHandler>
+      <splashHandlerProductBinding
+            splashId="com.example.tutorhelpplugin.splashHandlers.interactive"
+            productId="org.eclipse.epp.package.jee.product">
+      </splashHandlerProductBinding>
+   </extension>
+
+</plugin>
