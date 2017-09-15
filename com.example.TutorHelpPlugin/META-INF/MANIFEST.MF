@@ -28,3 +28,5 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.ui.workbench
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
+Bundle-ClassPath: src/ExternalJARs/json-20160810.jar,
+ .

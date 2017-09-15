@@ -14,8 +14,6 @@ import java.nio.file.FileSystems;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.core.filesystem.EFS;
-import org.eclipse.core.filesystem.IFileStore;
 import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IJavaProject;
@@ -34,7 +32,6 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.action.*;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.ui.*;
-import org.eclipse.ui.ide.IDE;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.SWT;
 
@@ -178,7 +175,7 @@ public class SampleView extends ViewPart {
 					SampleViewClient svc = new SampleViewClient();
 					try {
 						svc.getAssignmentsClient();
-						System.out.println("Workspace: "+ResourcesPlugin.getWorkspace().getRoot().getLocation().toString());
+						//System.out.println("Workspace: "+ResourcesPlugin.getWorkspace().getRoot().getLocation().toString());
 					} catch (Exception e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -227,8 +224,10 @@ public class SampleView extends ViewPart {
 				Object obj = ((IStructuredSelection)selection).getFirstElement();
 				File fileToOpen = null;
 				String packageName, className;
-				String projectName = obj.toString().split(":")[0];
 				String fileName = obj.toString().split(":")[1].trim();
+				String projectName = obj.toString().split(":")[0];
+				projectName = projectName.substring(0, projectName.length() - 1) + fileName.replace(".java", "");
+				System.out.println(fileName);
 				
 				try {
 					className = fileName;

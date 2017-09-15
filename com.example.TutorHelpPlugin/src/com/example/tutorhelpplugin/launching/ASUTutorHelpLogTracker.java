@@ -55,7 +55,7 @@ public class ASUTutorHelpLogTracker implements IConsoleLineTracker {
             	
             	for (String name : folderNames) {
             		if (name.contains("Assignment") && !name.contains("Client")) {
-            			fileName = name + ".txt";
+            			fileName = name.replace("Assignment", "") + ".txt";
             		}
             	}
             	
@@ -69,7 +69,7 @@ public class ASUTutorHelpLogTracker implements IConsoleLineTracker {
 				
 				File file = new File(directoryPath + File.separator + fileName);
 								
-			    FileWriter fw = new FileWriter(file,true); //the true will append the new data
+			    FileWriter fw = new FileWriter(file, true); //the true will append the new data.
 			    fw.write(line+separator);//appends the string to the file
 			    fw.close();
 			    

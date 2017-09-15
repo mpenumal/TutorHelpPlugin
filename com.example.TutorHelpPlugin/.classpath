@@ -3,11 +3,6 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="lib" path="D:/MS3rdYear/SER593/SamplePrograms/TutorHelpPlugin/com.example.TutorHelpPlugin/src/ExternalJARs/org.eclipse.core.filesystem-1.3.200.v20130115-145044.jar"/>
-	<classpathentry kind="lib" path="D:/MS3rdYear/SER593/SamplePrograms/TutorHelpPlugin/com.example.TutorHelpPlugin/src/ExternalJARs/org.eclipse.jdt.core-3.7.1.jar"/>
-	<classpathentry kind="lib" path="D:/MS3rdYear/SER593/SamplePrograms/TutorHelpPlugin/com.example.TutorHelpPlugin/src/ExternalJARs/org.eclipse.jdt.launching-3.3.2.jar"/>
-	<classpathentry kind="lib" path="D:/MS3rdYear/SER593/SamplePrograms/TutorHelpPlugin/com.example.TutorHelpPlugin/src/ExternalJARs/org.eclipse.debug.core_3.7.0.v20110518.jar"/>
-	<classpathentry kind="lib" path="D:/MS3rdYear/SER593/SamplePrograms/TutorHelpPlugin/com.example.TutorHelpPlugin/src/ExternalJARs/org.eclipse.jdt.debug.ui_3.6.0.v20110512.jar"/>
-	<classpathentry kind="lib" path="D:/MS3rdYear/SER593/SamplePrograms/TutorHelpPlugin/com.example.TutorHelpPlugin/src/ExternalJARs/org.eclipse.debug.ui-3.3.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="src/ExternalJARs/json-20160810.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
