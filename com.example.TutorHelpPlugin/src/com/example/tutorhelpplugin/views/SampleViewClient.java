@@ -25,6 +25,8 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
+import com.example.tutorhelpplugin.splashHandlers.InteractiveSplashHandler;
+
 public class SampleViewClient {
 	// Get Assignments using Socket
 	/*
@@ -95,7 +97,12 @@ public class SampleViewClient {
 		
 		String directoryPath = ResourcesPlugin.getWorkspace().getRoot().getLocation().toString() + 
 									File.separator + "AssignmentList_Client";
-		URL url = new URL("http://localhost:8080/assignments");
+		
+		// Local machine URL
+		//URL url = new URL("http://localhost:8080/assignments");
+		// Manohar AWS URL
+		URL url = new URL("http://34.224.41.66:8080/assignments");
+		
 		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 		conn.setRequestMethod("GET");
 		conn.setRequestProperty("Accept", "application/json");
@@ -120,12 +127,12 @@ public class SampleViewClient {
 			while (jsonCount < jObjList.length()) {
 				JSONObject jObj = jObjList.getJSONObject(jsonCount);
 				String name = jObj.getString("name");
-				int week = jObj.getInt("week");
+				boolean show = jObj.getBoolean("show");
 				JSONArray codeFile = jObj.getJSONArray("codeFile");
 				
 				File temp = new File(directoryPath + File.separator + name + ".java");
 				
-				if (!name.equals("Assignment00")) {
+				if (!name.equals("Assignment00") && show) {
 					if (!temp.exists() || temp.isDirectory()) {
 						try (FileWriter file = new FileWriter(directoryPath + File.separator + name + ".java")) {
 							String str = "";
@@ -210,7 +217,7 @@ public class SampleViewClient {
 		// File log = new File(directoryPath + File.separator + filename);
 		
 		// TODO: Get studentId
-		String studentId = "0000000001";
+		String studentId = InteractiveSplashHandler.login_username;
 		String assignmentName = filename.replace(".txt", "");
 	    List<String> outputFile = null;
 	    
@@ -229,7 +236,11 @@ public class SampleViewClient {
 		jObj.put("assignmentName", assignmentName);
 		jObj.put("outputFile", outputFile);
 		
-		URL url = new URL("http://localhost:8080/assignmentResults");
+		// Local machine URL
+		//URL url = new URL("http://localhost:8080/assignmentResults");
+		//Manohar AWS URL
+		URL url = new URL("http://34.224.41.66:8080/assignmentResults");
+		
 		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 		conn.setDoOutput(true);
 		conn.setRequestMethod("POST");

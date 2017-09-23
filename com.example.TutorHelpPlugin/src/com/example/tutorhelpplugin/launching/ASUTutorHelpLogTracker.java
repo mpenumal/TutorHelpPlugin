@@ -39,39 +39,11 @@ public class ASUTutorHelpLogTracker implements IConsoleLineTracker {
 	@Override
 	public void lineAppended(IRegion region) {
             try {
-            	String directoryPath = ResourcesPlugin.getWorkspace().getRoot().getLocation().toString() + File.separator + "ASULog_Client";
-            	String fileName = "ASULog.txt";
-            	
-            	String projectPath = ResourcesPlugin.getWorkspace().getRoot().getLocation().toString();
-            	File projectParent = new File(projectPath);
-            	File[] listOfFolders = projectParent.listFiles();
-            	ArrayList<String> folderNames = new ArrayList<>();
-            	
-            	for (int i = 0; i < listOfFolders.length; i++) {
-            		if (listOfFolders[i].isDirectory()) {
-            			folderNames.add(listOfFolders[i].getName());
-            		}
-            	}
-            	
-            	for (String name : folderNames) {
-            		if (name.contains("Assignment") && !name.contains("Client")) {
-            			fileName = name.replace("Assignment", "") + ".txt";
-            		}
-            	}
-            	
             	String line = m_console.getDocument().get(region.getOffset(), region.getLength());
+            	long currentTime = System.currentTimeMillis() / 1000;
             	String separator = System.getProperty("line.separator");
-            	
-            	File directory = new File(directoryPath);
-            	if (!directory.exists()) {
-            		directory.mkdir();
-            	}
-				
-				File file = new File(directoryPath + File.separator + fileName);
-								
-			    FileWriter fw = new FileWriter(file, true); //the true will append the new data.
-			    fw.write(line+separator);//appends the string to the file
-			    fw.close();
+            	line += separator+separator+"Run_Action_Status: Time = "+currentTime+separator+separator;
+            	writeToLogFile(line);
 			    
 			    SampleViewClient svc = new SampleViewClient();
 			    svc.sendLogClient();
@@ -86,5 +58,40 @@ public class ASUTutorHelpLogTracker implements IConsoleLineTracker {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+	}
+
+	public static void writeToLogFile(String line) throws BadLocationException, IOException {
+		String directoryPath = ResourcesPlugin.getWorkspace().getRoot().getLocation().toString() + File.separator + "ASULog_Client";
+		String fileName = "ASULog.txt";
+		
+		String projectPath = ResourcesPlugin.getWorkspace().getRoot().getLocation().toString();
+		File projectParent = new File(projectPath);
+		File[] listOfFolders = projectParent.listFiles();
+		ArrayList<String> folderNames = new ArrayList<>();
+		
+		for (int i = 0; i < listOfFolders.length; i++) {
+			if (listOfFolders[i].isDirectory()) {
+				folderNames.add(listOfFolders[i].getName());
+			}
+		}
+		
+		for (String name : folderNames) {
+			if (name.contains("Assignment") && !name.contains("Client")) {
+				fileName = name.replace("Assignment", "") + ".txt";
+			}
+		}
+		
+		String separator = System.getProperty("line.separator");
+		
+		File directory = new File(directoryPath);
+		if (!directory.exists()) {
+			directory.mkdir();
+		}
+		
+		File file = new File(directoryPath + File.separator + fileName);
+						
+		FileWriter fw = new FileWriter(file, true); //the true will append the new data.
+		fw.write(line+separator+separator);//appends the string to the file
+		fw.close();
 	}
 }

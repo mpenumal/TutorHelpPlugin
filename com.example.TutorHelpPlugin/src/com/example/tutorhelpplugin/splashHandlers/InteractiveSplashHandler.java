@@ -41,6 +41,8 @@ public class InteractiveSplashHandler extends AbstractSplashHandler {
 	
 	private boolean fAuthenticated;
 	
+	public static String login_username;
+	
 	/**
 	 * 
 	 */
@@ -126,23 +128,39 @@ public class InteractiveSplashHandler extends AbstractSplashHandler {
 			}
 		});				
 	}
+	
+	public int parseWithFallback(String text) {
+		try {
+		  return Integer.parseInt(text);
+		  
+		} catch (NumberFormatException e) {
+			System.out.println(e);
+		 }
+		return 0; 
+		}
 
 	/**
 	 * 
 	 */
 	private void handleButtonOKWidgetSelected() {
-		String username = fTextUsername.getText();
-		String password = fTextPassword.getText();
-		// Aunthentication is successful if a user provides any username and
-		// any password
-		if ((username.length() > 0) &&
-				(password.length() > 0)) {
+		
+		login_username = fTextUsername.getText();
+		int userId = parseWithFallback(login_username);
+		
+		/*
+		login_username = "1209455582";
+		int userId = parseWithFallback(login_username);
+		*/
+		//String password = fTextPassword.getText();
+		// Authentication is successful if a user provides ASU 10 digit userId and any password
+		if ((login_username.length() == 10 && userId != 0)) {
+				//&& (password.length() > 0)) {
 			fAuthenticated = true;
 		} else {
 			MessageDialog.openError(
 					getSplash(),
 					"Authentication Failed",  //$NON-NLS-1$
-					"A username and password must be specified to login.");  //$NON-NLS-1$
+					"A username must be specified to login.");  //$NON-NLS-1$
 		}
 	}
 	
@@ -159,9 +177,9 @@ public class InteractiveSplashHandler extends AbstractSplashHandler {
 		// Create the user name text widget
 		createUITextUserName();
 		// Create the password label
-		createUILabelPassword();
+		//createUILabelPassword();
 		// Create the password text widget
-		createUITextPassword();
+		//createUITextPassword();
 		// Create the blank label
 		createUILabelBlank();
 		// Create the OK button
@@ -208,7 +226,7 @@ public class InteractiveSplashHandler extends AbstractSplashHandler {
 
 	/**
 	 * 
-	 */
+	 
 	private void createUITextPassword() {
 		// Create the text widget
 		int style = SWT.PASSWORD | SWT.BORDER;
@@ -219,10 +237,12 @@ public class InteractiveSplashHandler extends AbstractSplashHandler {
 		data.horizontalSpan = 2;
 		fTextPassword.setLayoutData(data);		
 	}
+	
+	*/
 
 	/**
 	 * 
-	 */
+	 
 	private void createUILabelPassword() {
 		// Create the label
 		Label label = new Label(fCompositeLogin, SWT.NONE);
@@ -232,7 +252,8 @@ public class InteractiveSplashHandler extends AbstractSplashHandler {
 		data.horizontalIndent = F_LABEL_HORIZONTAL_INDENT;
 		label.setLayoutData(data);					
 	}
-
+	 */
+	
 	/**
 	 * 
 	 */
