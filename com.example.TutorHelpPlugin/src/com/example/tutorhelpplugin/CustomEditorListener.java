@@ -2,6 +2,9 @@ package com.example.tutorhelpplugin;
 
 import java.io.IOException;
 import java.net.URI;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.ui.IEditorInput;
@@ -34,14 +37,19 @@ public class CustomEditorListener implements IPartListener2 {
             URI uri = ((IURIEditorInput)input).getURI();
             if (uri != null && uri.getPath() != null) {
                 String currentFile = uri.getPath();
-                long currentTime = System.currentTimeMillis() / 1000;
+                //long currentTime = System.currentTimeMillis() / 1000;
+                DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+            	DateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
+            	Date date = new Date();
                 
                 try {
                 	String separator = System.getProperty("line.separator");
-                	ASUTutorHelpLogTracker.writeToLogFile("Editor_Action_Status: Filename = "+currentFile+", Time = "+currentTime+separator+separator);
+                	ASUTutorHelpLogTracker.writeToLogFile(separator+separator+"Editor_Action"+separator+"FileName: "+
+                			currentFile+separator+"Date: "+dateFormat.format(date)+separator+
+                			"Time: "+timeFormat.format(date)+separator+separator);
     			    
     			    SampleViewClient svc = new SampleViewClient();
-    			    svc.sendLogClient();
+    			    svc.sendLogClient(false);
     				
     			} catch (BadLocationException e) {
     				// TODO Auto-generated catch block

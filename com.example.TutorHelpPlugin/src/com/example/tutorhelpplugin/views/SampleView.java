@@ -228,21 +228,22 @@ public class SampleView extends ViewPart {
 				String fileName = obj.toString().split(":")[1].trim();
 				String projectName = obj.toString().split(":")[0];
 				projectName = projectName.substring(0, projectName.length() - 1) + fileName.replace(".java", "");
-				System.out.println(fileName);
-				
-				try {
-					className = fileName;
-					fileName = ResourcesPlugin.getWorkspace().getRoot().getLocation().toString() + File.separator + "AssignmentList_Client" + File.separator + fileName;
-					packageName = "ASUCourse";
-					createJavaProject(projectName, fileName, packageName, className);
-					fileToOpen = new File(fileName);
-				} catch (CoreException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+
+				if (fileName.endsWith(".java")) {
+					try {
+						className = fileName;
+						fileName = ResourcesPlugin.getWorkspace().getRoot().getLocation().toString() + File.separator + "AssignmentList_Client" + File.separator + fileName;
+						packageName = "ASUCourse";
+						createJavaProject(projectName, fileName, packageName, className);
+						fileToOpen = new File(fileName);
+					} catch (CoreException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
 			}		
 		};

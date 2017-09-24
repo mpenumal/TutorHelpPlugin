@@ -2,6 +2,9 @@ package com.example.tutorhelpplugin;
 
 import java.io.IOException;
 import java.net.URI;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
@@ -41,6 +44,15 @@ public class CustomExecutionListener implements IExecutionListener {
 	    @Override
 	    public void postExecuteSuccess(String commandId, Object returnValue) {
 	    	System.out.println(commandId);
+	    	String actionPerformed = "";
+	    	
+	    	if (commandId.equals("org.eclipse.ui.file.save")) {
+	    		actionPerformed = "Save_Action";
+	    	}
+	    	else if (commandId.equals("org.eclipse.jdt.debug.ui.localJavaShortcut.run")) {
+	    		actionPerformed = "Run_Action";
+	    	}
+	    	
 	        if (commandId.equals("org.eclipse.ui.file.save") ||
 	        		commandId.equals("org.eclipse.jdt.debug.ui.localJavaShortcut.run")) {
 	            IWorkbench workbench = PlatformUI.getWorkbench();
@@ -61,14 +73,19 @@ public class CustomExecutionListener implements IExecutionListener {
 	                URI uri = ((IURIEditorInput)input).getURI();
 	                if (uri != null && uri.getPath() != null) {
 	                    String currentFile = uri.getPath();
-	                    long currentTime = System.currentTimeMillis() / 1000;
+	                    //long currentTime = System.currentTimeMillis() / 1000;
+	                    DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+	                	DateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
+	                	Date date = new Date();
 	                    
 	                    try {
 	                    	String separator = System.getProperty("line.separator");
-	                    	ASUTutorHelpLogTracker.writeToLogFile("Execution_Action_Status: Filename = "+currentFile+", Time = "+currentTime+separator+separator);
+	                    	ASUTutorHelpLogTracker.writeToLogFile(separator+separator+actionPerformed+separator+"FileName: "+
+	                    			currentFile+separator+"Date: "+dateFormat.format(date)+separator+
+	                    			"Time: "+timeFormat.format(date)+separator+separator);
 	        			    
 	        			    SampleViewClient svc = new SampleViewClient();
-	        			    svc.sendLogClient();
+	        			    svc.sendLogClient(false);
 	        				
 	        			} catch (BadLocationException e) {
 	        				// TODO Auto-generated catch block

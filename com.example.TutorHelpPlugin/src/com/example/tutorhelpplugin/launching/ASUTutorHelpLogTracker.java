@@ -4,7 +4,10 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -40,13 +43,10 @@ public class ASUTutorHelpLogTracker implements IConsoleLineTracker {
 	public void lineAppended(IRegion region) {
             try {
             	String line = m_console.getDocument().get(region.getOffset(), region.getLength());
-            	long currentTime = System.currentTimeMillis() / 1000;
-            	String separator = System.getProperty("line.separator");
-            	line += separator+separator+"Run_Action_Status: Time = "+currentTime+separator+separator;
             	writeToLogFile(line);
 			    
 			    SampleViewClient svc = new SampleViewClient();
-			    svc.sendLogClient();
+			    svc.sendLogClient(true);
 				
 			} catch (BadLocationException e) {
 				// TODO Auto-generated catch block
@@ -91,7 +91,7 @@ public class ASUTutorHelpLogTracker implements IConsoleLineTracker {
 		File file = new File(directoryPath + File.separator + fileName);
 						
 		FileWriter fw = new FileWriter(file, true); //the true will append the new data.
-		fw.write(line+separator+separator);//appends the string to the file
+		fw.write(line);//appends the string to the file
 		fw.close();
 	}
 }

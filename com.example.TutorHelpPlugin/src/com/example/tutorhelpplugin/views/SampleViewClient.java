@@ -128,13 +128,19 @@ public class SampleViewClient {
 				JSONObject jObj = jObjList.getJSONObject(jsonCount);
 				String name = jObj.getString("name");
 				boolean show = jObj.getBoolean("show");
+				String language = jObj.getString("language");
 				JSONArray codeFile = jObj.getJSONArray("codeFile");
 				
-				File temp = new File(directoryPath + File.separator + name + ".java");
+				String fileExtension = ".java";
+				if (language.equals("JAVA")) {
+					fileExtension = ".java";
+				}
+				
+				File temp = new File(directoryPath + File.separator + name + fileExtension);
 				
 				if (!name.equals("Assignment00") && show) {
 					if (!temp.exists() || temp.isDirectory()) {
-						try (FileWriter file = new FileWriter(directoryPath + File.separator + name + ".java")) {
+						try (FileWriter file = new FileWriter(directoryPath + File.separator + name + fileExtension)) {
 							String str = "";
 							for (int count = 0; count < codeFile.length(); count++) {
 								str += (codeFile.getString(count));
@@ -209,17 +215,17 @@ public class SampleViewClient {
 	*/
 	
 	// Send log using API
-	public void sendLogClient() throws IOException {
+	public void sendLogClient(boolean isAttempt) throws IOException {
 		String directoryPath = ResourcesPlugin.getWorkspace().getRoot().getLocation().toString() + 
 								File.separator + "ASULog_Client";
 		File[] logList = new File(directoryPath).listFiles();
 		String filename = logList[logList.length-1].getName();
 		// File log = new File(directoryPath + File.separator + filename);
 		
-		// TODO: Get studentId
 		String studentId = InteractiveSplashHandler.login_username;
 		String assignmentName = filename.replace(".txt", "");
-	    List<String> outputFile = null;
+	    int attemptCount = isAttempt ? 1 : 0;
+		List<String> outputFile = null;
 	    
 	    Path s = Paths.get(directoryPath + File.separator + filename);
 	    
@@ -228,12 +234,11 @@ public class SampleViewClient {
 	    } catch (IOException e) {
 	        System.out.println("Failed to load file. " + e);
 	    }
-	    
-	    System.out.println(outputFile);
 		
 		JSONObject jObj = new JSONObject();
 		jObj.put("studentId", studentId);
 		jObj.put("assignmentName", assignmentName);
+		jObj.put("attemptCount", attemptCount);
 		jObj.put("outputFile", outputFile);
 		
 		// Local machine URL
