@@ -46,7 +46,7 @@ public class ASUTutorHelpLogTracker implements IConsoleLineTracker {
             	writeToLogFile(line);
 			    
 			    SampleViewClient svc = new SampleViewClient();
-			    svc.sendLogClient(true);
+			    svc.sendLogClient();
 				
 			} catch (BadLocationException e) {
 				// TODO Auto-generated catch block

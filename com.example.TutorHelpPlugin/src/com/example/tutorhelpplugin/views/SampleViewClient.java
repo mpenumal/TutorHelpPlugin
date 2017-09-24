@@ -215,7 +215,7 @@ public class SampleViewClient {
 	*/
 	
 	// Send log using API
-	public void sendLogClient(boolean isAttempt) throws IOException {
+	public void sendLogClient() throws IOException {
 		String directoryPath = ResourcesPlugin.getWorkspace().getRoot().getLocation().toString() + 
 								File.separator + "ASULog_Client";
 		File[] logList = new File(directoryPath).listFiles();
@@ -224,7 +224,6 @@ public class SampleViewClient {
 		
 		String studentId = InteractiveSplashHandler.login_username;
 		String assignmentName = filename.replace(".txt", "");
-	    int attemptCount = isAttempt ? 1 : 0;
 		List<String> outputFile = null;
 	    
 	    Path s = Paths.get(directoryPath + File.separator + filename);
@@ -238,7 +237,6 @@ public class SampleViewClient {
 		JSONObject jObj = new JSONObject();
 		jObj.put("studentId", studentId);
 		jObj.put("assignmentName", assignmentName);
-		jObj.put("attemptCount", attemptCount);
 		jObj.put("outputFile", outputFile);
 		
 		// Local machine URL

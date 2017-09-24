@@ -85,7 +85,7 @@ public class CustomExecutionListener implements IExecutionListener {
 	                    			"Time: "+timeFormat.format(date)+separator+separator);
 	        			    
 	        			    SampleViewClient svc = new SampleViewClient();
-	        			    svc.sendLogClient(false);
+	        			    svc.sendLogClient();
 	        				
 	        			} catch (BadLocationException e) {
 	        				// TODO Auto-generated catch block

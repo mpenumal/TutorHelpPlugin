@@ -5,11 +5,13 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
@@ -33,7 +35,7 @@ public class InteractiveSplashHandler extends AbstractSplashHandler {
 	
 	private Text fTextUsername;
 	
-	private Text fTextPassword;
+	//private Text fTextPassword;
 	
 	private Button fButtonOK;
 	
@@ -49,7 +51,7 @@ public class InteractiveSplashHandler extends AbstractSplashHandler {
 	public InteractiveSplashHandler() {
 		fCompositeLogin = null;
 		fTextUsername = null;
-		fTextPassword = null;
+		//fTextPassword = null;
 		fButtonOK = null;
 		fButtonCancel = null;
 		fAuthenticated = false;
@@ -273,11 +275,15 @@ public class InteractiveSplashHandler extends AbstractSplashHandler {
 	private void createUILabelUserName() {
 		// Create the label
 		Label label = new Label(fCompositeLogin, SWT.NONE);
-		label.setText("&User Name:"); //$NON-NLS-1$
+		label.setText("ASU-ID:"); //$NON-NLS-1$
+		Display display = Display.getCurrent();
+		Color color_white = display.getSystemColor(SWT.COLOR_WHITE);
+		label.setForeground(color_white);
 		// Configure layout data
 		GridData data = new GridData();
 		data.horizontalIndent = F_LABEL_HORIZONTAL_INDENT;
-		label.setLayoutData(data);		
+		label.setLayoutData(data);
+		
 	}
 
 	/**
