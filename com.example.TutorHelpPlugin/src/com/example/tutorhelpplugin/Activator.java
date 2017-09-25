@@ -45,13 +45,14 @@ public class Activator extends AbstractUIPlugin implements IStartup {
 
         // listen for save file events
         ICommandService commandService = (ICommandService) workbench.getService(ICommandService.class);
-        executionListener = new TutorPluginSaveAndRunListener();
+        executionListener = new TutorPluginRunListener();
         commandService.addExecutionListener(executionListener);
         
         workbench.getDisplay().asyncExec(new Runnable() {
             public void run() {
             	IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
                 if (window == null) return;
+                if (window.getPartService() == null) return;
                 
             	// listen for change of active file
                 window.getPartService().addPartListener(editorListener);

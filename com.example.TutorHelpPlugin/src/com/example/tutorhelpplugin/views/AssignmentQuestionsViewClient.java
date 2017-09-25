@@ -31,12 +31,12 @@ public class AssignmentQuestionsViewClient {
 	public void getAssignmentsClient() throws IOException {
 		
 		String directoryPath = ResourcesPlugin.getWorkspace().getRoot().getLocation().toString() + 
-									File.separator + "AssignmentList_Client";
+									File.separator + "AssignmentList_Cosmo_Client";
 		
 		// Local machine URL
-		//URL url = new URL("http://localhost:8080/assignments");
+		URL url = new URL("http://localhost:8080/assignments");
 		// Manohar AWS URL
-		URL url = new URL("http://34.224.41.66:8080/assignments");
+		//URL url = new URL("http://34.224.41.66:8080/assignments");
 		
 		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 		conn.setRequestMethod("GET");
@@ -104,7 +104,7 @@ public class AssignmentQuestionsViewClient {
 	 */
 	public void sendLogClient() throws IOException {
 		String directoryPath = ResourcesPlugin.getWorkspace().getRoot().getLocation().toString() + 
-								File.separator + "ASULog_Client";
+								File.separator + "ASULog_Cosmo_Client";
 		File[] logList = new File(directoryPath).listFiles();
 		String filename = logList[logList.length-1].getName();
 		// File log = new File(directoryPath + File.separator + filename);
@@ -123,7 +123,7 @@ public class AssignmentQuestionsViewClient {
 	    }
 		
 	    // For local test
-	    //studentId = "1234567890";
+	    studentId = "1234567890";
 	    
 		JSONObject jObj = new JSONObject();
 		jObj.put("studentId", studentId);
@@ -131,9 +131,9 @@ public class AssignmentQuestionsViewClient {
 		jObj.put("outputFile", outputFile);
 		
 		// Local machine URL
-		//URL url = new URL("http://localhost:8080/assignmentResults");
+		URL url = new URL("http://localhost:8080/assignmentResults");
 		//Manohar AWS URL
-		URL url = new URL("http://34.224.41.66:8080/assignmentResults");
+		//URL url = new URL("http://34.224.41.66:8080/assignmentResults");
 		
 		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 		conn.setDoOutput(true);

@@ -50,8 +50,8 @@ public class TutorPluginLogTracker implements IConsoleLineTracker {
 	}
 
 	public static void writeToLogFile(String line) throws BadLocationException, IOException {
-		String directoryPath = ResourcesPlugin.getWorkspace().getRoot().getLocation().toString() + File.separator + "ASULog_Client";
-		String fileName = "ASULog.txt";
+		String directoryPath = ResourcesPlugin.getWorkspace().getRoot().getLocation().toString() + File.separator + "ASULog_Cosmo_Client";
+		String fileName = "ASULog_Cosmo_Client";
 		
 		String projectPath = ResourcesPlugin.getWorkspace().getRoot().getLocation().toString();
 		File projectParent = new File(projectPath);
@@ -65,12 +65,10 @@ public class TutorPluginLogTracker implements IConsoleLineTracker {
 		}
 		
 		for (String name : folderNames) {
-			if (name.contains("Assignment") && !name.contains("Client")) {
+			if (name.contains("Assignment") && !name.contains("_Cosmo_Client")) {
 				fileName = name.replace("Assignment", "") + ".txt";
 			}
 		}
-		
-		String separator = System.getProperty("line.separator");
 		
 		File directory = new File(directoryPath);
 		if (!directory.exists()) {
@@ -80,7 +78,7 @@ public class TutorPluginLogTracker implements IConsoleLineTracker {
 		File file = new File(directoryPath + File.separator + fileName);
 						
 		FileWriter fw = new FileWriter(file, false); //the false will not append but replace the data.
-		fw.write(line+separator);//appends the string to the file
+		fw.write(line);//appends the string to the file
 		fw.close();
 	}
 }

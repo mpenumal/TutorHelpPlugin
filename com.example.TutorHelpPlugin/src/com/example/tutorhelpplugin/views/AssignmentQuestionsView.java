@@ -105,7 +105,7 @@ public class AssignmentQuestionsView extends ViewPart {
 	}
 
 	private ArrayList<String> getFilesInFolder() {
-		String directoryPath = ResourcesPlugin.getWorkspace().getRoot().getLocation().toString() + File.separator + "AssignmentList_Client";
+		String directoryPath = ResourcesPlugin.getWorkspace().getRoot().getLocation().toString() + File.separator + "AssignmentList_Cosmo_Client";
 		File directory = new File(directoryPath);
 		if (!directory.exists()) {
 			directory.mkdir();
@@ -189,7 +189,7 @@ public class AssignmentQuestionsView extends ViewPart {
 		
 		deleteAction = new Action() {
 			public void run() {
-				String directoryPath = ResourcesPlugin.getWorkspace().getRoot().getLocation().toString() + File.separator + "AssignmentList_Client";
+				String directoryPath = ResourcesPlugin.getWorkspace().getRoot().getLocation().toString() + File.separator + "AssignmentList_Cosmo_Client";
 				if (viewer != null) {
 					File[] assignmentList = new File(directoryPath).listFiles();
 					for(File file: assignmentList) 
@@ -228,7 +228,7 @@ public class AssignmentQuestionsView extends ViewPart {
 					if (fileName.endsWith(".java")) {
 						try {
 							className = fileName;
-							fileName = ResourcesPlugin.getWorkspace().getRoot().getLocation().toString() + File.separator + "AssignmentList_Client" + File.separator + fileName;
+							fileName = ResourcesPlugin.getWorkspace().getRoot().getLocation().toString() + File.separator + "AssignmentList_Cosmo_Client" + File.separator + fileName;
 							packageName = "ASUCourse";
 							createJavaProject(projectName, fileName, packageName, className);
 						} catch (CoreException e) {
