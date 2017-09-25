@@ -1,10 +1,7 @@
 package com.example.tutorhelpplugin;
 
-import java.io.IOException;
-
 import org.eclipse.core.commands.IExecutionListener;
 import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.ui.IStartup;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchWindow;
@@ -12,9 +9,6 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.commands.ICommandService;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
-
-import com.example.tutorhelpplugin.launching.ASUTutorHelpLogTracker;
-import com.example.tutorhelpplugin.views.SampleViewClient;
 
 /**
  * The activator class controls the plug-in life cycle
@@ -24,7 +18,7 @@ public class Activator extends AbstractUIPlugin implements IStartup {
 	// The plug-in ID
 	public static final String PLUGIN_ID = "com.example.TutorHelpPlugin"; //$NON-NLS-1$
 	private static IExecutionListener executionListener;
-	private static CustomEditorListener editorListener;
+	private static TutorPluginEditorListener editorListener;
 
 	// The shared instance
 	private static Activator plugin;
@@ -42,7 +36,7 @@ public class Activator extends AbstractUIPlugin implements IStartup {
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 		plugin = this;
-		editorListener = new CustomEditorListener();
+		editorListener = new TutorPluginEditorListener();
 	}
 	
 	@Override
@@ -51,7 +45,7 @@ public class Activator extends AbstractUIPlugin implements IStartup {
 
         // listen for save file events
         ICommandService commandService = (ICommandService) workbench.getService(ICommandService.class);
-        executionListener = new CustomExecutionListener();
+        executionListener = new TutorPluginSaveAndRunListener();
         commandService.addExecutionListener(executionListener);
         
         workbench.getDisplay().asyncExec(new Runnable() {

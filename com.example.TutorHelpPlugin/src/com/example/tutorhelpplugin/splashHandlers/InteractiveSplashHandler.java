@@ -17,10 +17,6 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.splash.AbstractSplashHandler;
 
-/**
- * @since 3.3
- * 
- */
 public class InteractiveSplashHandler extends AbstractSplashHandler {
 	
 	private final static int F_LABEL_HORIZONTAL_INDENT = 175;
@@ -45,9 +41,6 @@ public class InteractiveSplashHandler extends AbstractSplashHandler {
 	
 	public static String login_username;
 	
-	/**
-	 * 
-	 */
 	public InteractiveSplashHandler() {
 		fCompositeLogin = null;
 		fTextUsername = null;
@@ -136,7 +129,7 @@ public class InteractiveSplashHandler extends AbstractSplashHandler {
 		  return Integer.parseInt(text);
 		  
 		} catch (NumberFormatException e) {
-			System.out.println(e);
+			e.printStackTrace();
 		 }
 		return 0; 
 		}
@@ -275,7 +268,7 @@ public class InteractiveSplashHandler extends AbstractSplashHandler {
 	private void createUILabelUserName() {
 		// Create the label
 		Label label = new Label(fCompositeLogin, SWT.NONE);
-		label.setText("ASU-ID:"); //$NON-NLS-1$
+		label.setText("StudentID:"); //$NON-NLS-1$
 		Display display = Display.getCurrent();
 		Color color_white = display.getSystemColor(SWT.COLOR_WHITE);
 		label.setForeground(color_white);
