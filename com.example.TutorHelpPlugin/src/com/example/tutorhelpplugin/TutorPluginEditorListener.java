@@ -4,9 +4,10 @@ import java.io.IOException;
 import java.net.URI;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
-import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorReference;
@@ -41,23 +42,23 @@ public class TutorPluginEditorListener implements IPartListener2 {
             URI uri = ((IURIEditorInput)input).getURI();
             if (uri != null && uri.getPath() != null) {
                 String currentFile = uri.getPath();
-                //long currentTime = System.currentTimeMillis() / 1000;
                 DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
             	DateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
             	Date date = new Date();
                 
                 try {
-                	String separator = System.getProperty("line.separator");
-                	TutorPluginLogTracker.writeToLogFile(separator+separator+"Editor_Action"+separator+"FileName: "+
-                			currentFile+separator+"Date: "+dateFormat.format(date)+separator+
-                			"Time: "+timeFormat.format(date)+separator+separator);
-    			    
+                	List<String> lines = Arrays.asList("", "", "Editor_Action", "FileName: "+currentFile, 
+                						"Date: "+dateFormat.format(date), "Time: "+timeFormat.format(date), "", "");
+                	
+                	String temp = currentFile.split("/src")[0];
+                	String[] folderNamesInWorkspace = temp.split("/");
+                	String assignmentName = folderNamesInWorkspace[folderNamesInWorkspace.length-1];
+                	
+                	TutorPluginLogTracker.assignmentName = assignmentName;
+                	
     			    AssignmentQuestionsViewClient svc = new AssignmentQuestionsViewClient();
-    			    svc.sendLogClient();
+    			    svc.sendLogClient(lines);
     				
-    			} catch (BadLocationException e) {
-    				// TODO Auto-generated catch block
-    				e.printStackTrace();
     			} catch (IOException e) {
     				// TODO Auto-generated catch block
     				e.printStackTrace();
@@ -116,23 +117,23 @@ public class TutorPluginEditorListener implements IPartListener2 {
             	            URI uri = ((IURIEditorInput)input).getURI();
             	            if (uri != null && uri.getPath() != null) {
             	                String currentFile = uri.getPath();
-            	                //long currentTime = System.currentTimeMillis() / 1000;
             	                DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
             	            	DateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
             	            	Date date = new Date();
             	                
             	                try {
-            	                	String separator = System.getProperty("line.separator");
-            	                	TutorPluginLogTracker.writeToLogFile(separator+separator+"Paste_Action"+separator+"FileName: "+
-            	                			currentFile+separator+"Date: "+dateFormat.format(date)+separator+
-            	                			"Time: "+timeFormat.format(date)+separator+separator);
+            	                	List<String> lines = Arrays.asList("", "", "Paste_Action", "FileName: "+currentFile, 
+                    						"Date: "+dateFormat.format(date), "Time: "+timeFormat.format(date), "", "");
+            	                	
+            	                	String temp = currentFile.split("/src")[0];
+            	                	String[] folderNamesInWorkspace = temp.split("/");
+            	                	String assignmentName = folderNamesInWorkspace[folderNamesInWorkspace.length-1];
+            	                	
+            	                	TutorPluginLogTracker.assignmentName = assignmentName;
             	    			    
             	    			    AssignmentQuestionsViewClient svc = new AssignmentQuestionsViewClient();
-            	    			    svc.sendLogClient();
+            	    			    svc.sendLogClient(lines);
             	    				
-            	    			} catch (BadLocationException e) {
-            	    				// TODO Auto-generated catch block
-            	    				e.printStackTrace();
             	    			} catch (IOException e) {
             	    				// TODO Auto-generated catch block
             	    				e.printStackTrace();

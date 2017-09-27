@@ -31,7 +31,7 @@ public class InteractiveSplashHandler extends AbstractSplashHandler {
 	
 	private Text fTextUsername;
 	
-	//private Text fTextPassword;
+	private Text fTextCoursename;
 	
 	private Button fButtonOK;
 	
@@ -39,12 +39,14 @@ public class InteractiveSplashHandler extends AbstractSplashHandler {
 	
 	private boolean fAuthenticated;
 	
-	public static String login_username;
+	public static String login_userName;
+	
+	public static String login_courseName;
 	
 	public InteractiveSplashHandler() {
 		fCompositeLogin = null;
 		fTextUsername = null;
-		//fTextPassword = null;
+		fTextCoursename = null;
 		fButtonOK = null;
 		fButtonCancel = null;
 		fAuthenticated = false;
@@ -139,23 +141,18 @@ public class InteractiveSplashHandler extends AbstractSplashHandler {
 	 */
 	private void handleButtonOKWidgetSelected() {
 		
-		login_username = fTextUsername.getText();
-		int userId = parseWithFallback(login_username);
+		login_userName = fTextUsername.getText();
+		int userId = parseWithFallback(login_userName);
 		
-		/*
-		login_username = "1209455582";
-		int userId = parseWithFallback(login_username);
-		*/
-		//String password = fTextPassword.getText();
+		login_courseName = fTextCoursename.getText();
 		// Authentication is successful if a user provides ASU 10 digit userId and any password
-		if ((login_username.length() == 10 && userId != 0)) {
-				//&& (password.length() > 0)) {
+		if ((login_userName.length() == 10 && userId != 0) && (login_courseName.length() == 6)) {
 			fAuthenticated = true;
 		} else {
 			MessageDialog.openError(
 					getSplash(),
 					"Authentication Failed",  //$NON-NLS-1$
-					"A username must be specified to login.");  //$NON-NLS-1$
+					"A StudentID and/or CourseName must be specified to login.");  //$NON-NLS-1$
 		}
 	}
 	
@@ -172,9 +169,9 @@ public class InteractiveSplashHandler extends AbstractSplashHandler {
 		// Create the user name text widget
 		createUITextUserName();
 		// Create the password label
-		//createUILabelPassword();
+		createUILabelCourseName();
 		// Create the password text widget
-		//createUITextPassword();
+		createUITextCourseName();
 		// Create the blank label
 		createUILabelBlank();
 		// Create the OK button
@@ -218,37 +215,30 @@ public class InteractiveSplashHandler extends AbstractSplashHandler {
 		Label label = new Label(fCompositeLogin, SWT.NONE);
 		label.setVisible(false);
 	}
-
-	/**
-	 * 
 	 
-	private void createUITextPassword() {
+	private void createUITextCourseName() {
 		// Create the text widget
-		int style = SWT.PASSWORD | SWT.BORDER;
-		fTextPassword = new Text(fCompositeLogin, style);
+		fTextCoursename = new Text(fCompositeLogin, SWT.BORDER);
 		// Configure layout data
 		GridData data = new GridData(SWT.NONE, SWT.NONE, false, false);
 		data.widthHint = F_TEXT_WIDTH_HINT;
 		data.horizontalSpan = 2;
-		fTextPassword.setLayoutData(data);		
+		fTextCoursename.setLayoutData(data);		
 	}
-	
-	*/
-
-	/**
-	 * 
 	 
-	private void createUILabelPassword() {
+	private void createUILabelCourseName() {
 		// Create the label
 		Label label = new Label(fCompositeLogin, SWT.NONE);
-		label.setText("&Password:"); //$NON-NLS-1$
+		label.setText("CourseName:"); //$NON-NLS-1$
+		Display display = Display.getCurrent();
+		Color color_white = display.getSystemColor(SWT.COLOR_WHITE);
+		label.setForeground(color_white);
 		// Configure layout data
 		GridData data = new GridData();
 		data.horizontalIndent = F_LABEL_HORIZONTAL_INDENT;
 		label.setLayoutData(data);					
 	}
-	 */
-	
+
 	/**
 	 * 
 	 */

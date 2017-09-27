@@ -8,18 +8,14 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
+import com.example.tutorhelpplugin.launching.TutorPluginLogTracker;
 import com.example.tutorhelpplugin.splashHandlers.InteractiveSplashHandler;
 
 public class AssignmentQuestionsViewClient {
@@ -34,9 +30,9 @@ public class AssignmentQuestionsViewClient {
 									File.separator + "AssignmentList_Cosmo_Client";
 		
 		// Local machine URL
-		URL url = new URL("http://localhost:8080/assignments");
+		//URL url = new URL("http://localhost:8080/assignments");
 		// Manohar AWS URL
-		//URL url = new URL("http://34.224.41.66:8080/assignments");
+		URL url = new URL("http://34.224.41.66:8080/assignments");
 		
 		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 		conn.setRequestMethod("GET");
@@ -70,6 +66,9 @@ public class AssignmentQuestionsViewClient {
 				if (language.equals("JAVA")) {
 					fileExtension = ".java";
 				}
+				else if (language.equals("TEXT")) {
+					fileExtension = ".txt";
+				}
 				
 				File temp = new File(directoryPath + File.separator + name + fileExtension);
 				
@@ -102,38 +101,27 @@ public class AssignmentQuestionsViewClient {
 	 * Send log using API
 	 * @throws IOException
 	 */
-	public void sendLogClient() throws IOException {
-		String directoryPath = ResourcesPlugin.getWorkspace().getRoot().getLocation().toString() + 
-								File.separator + "ASULog_Cosmo_Client";
-		File[] logList = new File(directoryPath).listFiles();
-		String filename = logList[logList.length-1].getName();
-		// File log = new File(directoryPath + File.separator + filename);
+	public void sendLogClient(List<String> lines) throws IOException {
+		String studentId = InteractiveSplashHandler.login_userName;
+		String courseName = InteractiveSplashHandler.login_courseName;
+		String assignmentName = TutorPluginLogTracker.assignmentName;
 		
-		String studentId = InteractiveSplashHandler.login_username;
-		String assignmentName = filename.replace(".txt", "");
-		List<String> outputFile = null;
-	    
-	    Path s = Paths.get(directoryPath + File.separator + filename);
-	    
-	    try (Stream<String> lines = Files.lines(s)) {
-	    	outputFile = lines.collect(Collectors.toList());
-	    } catch (IOException e) {
-	    	e.printStackTrace();
-	        //System.out.println("Failed to load file. " + e);
-	    }
+		List<String> outputFile = lines;
 		
 	    // For local test
-	    studentId = "1234567890";
+	    //studentId = "1234567890";
+	    //courseName = "CSE360";
 	    
 		JSONObject jObj = new JSONObject();
 		jObj.put("studentId", studentId);
+		jObj.put("courseName", courseName);
 		jObj.put("assignmentName", assignmentName);
 		jObj.put("outputFile", outputFile);
 		
 		// Local machine URL
-		URL url = new URL("http://localhost:8080/assignmentResults");
-		//Manohar AWS URL
-		//URL url = new URL("http://34.224.41.66:8080/assignmentResults");
+		//URL url = new URL("http://localhost:8080/assignmentResults");
+		// Manohar AWS URL
+		URL url = new URL("http://34.224.41.66:8080/assignmentResults");
 		
 		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 		conn.setDoOutput(true);

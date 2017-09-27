@@ -24,6 +24,8 @@ import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.launching.IVMInstall;
 import org.eclipse.jdt.launching.JavaRuntime;
 import org.eclipse.jdt.launching.LibraryLocation;
+import org.eclipse.core.filesystem.EFS;
+import org.eclipse.core.filesystem.IFileStore;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
@@ -33,6 +35,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.action.*;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.ui.*;
+import org.eclipse.ui.ide.IDE;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.SWT;
 
@@ -116,7 +119,7 @@ public class AssignmentQuestionsView extends ViewPart {
 		ArrayList<String> arrList = new ArrayList<String>();
 		for (int i = 0; i < listOfFiles.length; i++) {
 			if (listOfFiles[i].isFile()) {
-				arrList.add("Assignment" + (arrList.size()+1) + ": " + listOfFiles[i].getName());
+				arrList.add(listOfFiles[i].getName());
 			}
 		}
 		return arrList;
@@ -213,7 +216,6 @@ public class AssignmentQuestionsView extends ViewPart {
 			public void run() {
 				ISelection selection = viewer.getSelection();
 				Object obj = ((IStructuredSelection)selection).getFirstElement();
-				String packageName, className;
 				
 				String listItemName = obj.toString(); 
 				
@@ -221,15 +223,14 @@ public class AssignmentQuestionsView extends ViewPart {
 					showMessage("No assignments questions for now.");
 				}
 				else {
-					String fileName = listItemName.split(":")[1].trim();
-					String projectName = obj.toString().split(":")[0];
-					projectName = projectName.substring(0, projectName.length() - 1) + fileName.replace(".java", "");
+					String fileName = listItemName.trim();
 
 					if (fileName.endsWith(".java")) {
 						try {
-							className = fileName;
+							String projectName = fileName.replace(".java", "");
+							String className = fileName;
 							fileName = ResourcesPlugin.getWorkspace().getRoot().getLocation().toString() + File.separator + "AssignmentList_Cosmo_Client" + File.separator + fileName;
-							packageName = "ASUCourse";
+							String packageName = "assignmentPackage";
 							createJavaProject(projectName, fileName, packageName, className);
 						} catch (CoreException e) {
 							// TODO Auto-generated catch block
@@ -238,6 +239,23 @@ public class AssignmentQuestionsView extends ViewPart {
 						catch (IOException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
+						}
+					}
+					else if (fileName.endsWith(".txt") || fileName.endsWith(".TXT")) {
+						fileName = ResourcesPlugin.getWorkspace().getRoot().getLocation().toString() + File.separator + "AssignmentList_Cosmo_Client" + File.separator + fileName;
+						File fileToOpen = new File(fileName);
+						if (fileToOpen.exists() && fileToOpen.isFile()) {
+						    IFileStore fileStore = EFS.getLocalFileSystem().getStore(fileToOpen.toURI());
+						    IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+						 
+						    try {
+						        IDE.openEditorOnFileStore(page, fileStore);
+						    } catch ( PartInitException e ) {
+						        e.printStackTrace();
+						    }
+						}
+						else {
+							System.out.println(fileName+" does not exist.");
 						}
 					}
 				}
