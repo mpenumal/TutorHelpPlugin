@@ -118,7 +118,7 @@ public class AssignmentQuestionsView extends ViewPart {
 		File[] listOfFiles = folder.listFiles();
 		ArrayList<String> arrList = new ArrayList<String>();
 		for (int i = 0; i < listOfFiles.length; i++) {
-			if (listOfFiles[i].isFile()) {
+			if (listOfFiles[i].isFile() && !listOfFiles[i].getName().endsWith("_metadata.txt")) {
 				arrList.add(listOfFiles[i].getName());
 			}
 		}
@@ -177,7 +177,12 @@ public class AssignmentQuestionsView extends ViewPart {
 					ArrayList<String> arrList = getFilesInFolder();
 					
 					viewer.setContentProvider(ArrayContentProvider.getInstance());
-					viewer.setInput(arrList);
+					if (arrList == null || arrList.isEmpty()) {
+						viewer.setInput(new String[] { emptyListLabel });
+					}
+					else {
+						viewer.setInput(arrList);
+					}
 					viewer.setLabelProvider(new ViewLabelProvider());
 				}
 				else {

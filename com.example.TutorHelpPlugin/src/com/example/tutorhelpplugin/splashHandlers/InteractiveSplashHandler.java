@@ -229,7 +229,7 @@ public class InteractiveSplashHandler extends AbstractSplashHandler {
 	private void createUILabelCourseName() {
 		// Create the label
 		Label label = new Label(fCompositeLogin, SWT.NONE);
-		label.setText("CourseName:"); //$NON-NLS-1$
+		label.setText("Course:"); //$NON-NLS-1$
 		Display display = Display.getCurrent();
 		Color color_white = display.getSystemColor(SWT.COLOR_WHITE);
 		label.setForeground(color_white);

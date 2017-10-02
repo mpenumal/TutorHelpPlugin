@@ -7,6 +7,8 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
@@ -42,13 +44,12 @@ public class TutorPluginEditorListener implements IPartListener2 {
             URI uri = ((IURIEditorInput)input).getURI();
             if (uri != null && uri.getPath() != null) {
                 String currentFile = uri.getPath();
-                DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
-            	DateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
+                DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
             	Date date = new Date();
                 
                 try {
-                	List<String> lines = Arrays.asList("", "", "Editor_Action", "FileName: "+currentFile, 
-                						"Date: "+dateFormat.format(date), "Time: "+timeFormat.format(date), "", "");
+                	List<String> lines = Arrays.asList("", "", "Editor_Activate_Action", "FileName|"+currentFile, 
+                						"DateTime|"+dateFormat.format(date), "", "");
                 	
                 	String temp = currentFile.split("/src")[0];
                 	String[] folderNamesInWorkspace = temp.split("/");
@@ -81,8 +82,42 @@ public class TutorPluginEditorListener implements IPartListener2 {
 	}
 
 	@Override
-	public void partDeactivated(IWorkbenchPartReference arg0) {
-		// TODO Auto-generated method stub
+	public void partDeactivated(IWorkbenchPartReference partReference) {
+		IEditorPart part = partReference.getPage().getActiveEditor();
+        if (!(part instanceof AbstractTextEditor))
+            return;
+        
+        // log new active file
+        IEditorInput input = part.getEditorInput();
+        if (input instanceof IURIEditorInput) {
+            URI uri = ((IURIEditorInput)input).getURI();
+            if (uri != null && uri.getPath() != null) {
+                String currentFile = uri.getPath();
+                DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+            	Date date = new Date();
+                
+                try {
+                	List<String> lines = Arrays.asList("", "", "Editor_Deactivate_Action", "FileName|"+currentFile, 
+                						"DateTime|"+dateFormat.format(date), "", "");
+                	
+                	String temp = currentFile.split("/src")[0];
+                	String[] folderNamesInWorkspace = temp.split("/");
+                	String assignmentName = folderNamesInWorkspace[folderNamesInWorkspace.length-1];
+                	
+                	TutorPluginLogTracker.assignmentName = assignmentName;
+                	
+    			    AssignmentQuestionsViewClient svc = new AssignmentQuestionsViewClient();
+    			    svc.sendLogClient(lines);
+    				
+    			} catch (IOException e) {
+    				// TODO Auto-generated catch block
+    				e.printStackTrace();
+    			} catch (Exception e) {
+    				// TODO Auto-generated catch block
+    				e.printStackTrace();
+    			}
+            }
+        }
 	}
 
 	@Override
@@ -104,8 +139,6 @@ public class TutorPluginEditorListener implements IPartListener2 {
             // Verify Listener
             ((StyledText)editor.getAdapter(Control.class)).addVerifyListener(new VerifyListener() {
         		public void verifyText(VerifyEvent event) {
-        			
-        			System.out.println(event.text.trim());
         			if (event.text != null && event.text.trim() != "" && event.text.trim().length() > 200) {
         				IEditorPart part = partReference.getPage().getActiveEditor();
             	        if (!(part instanceof AbstractTextEditor))
@@ -117,13 +150,19 @@ public class TutorPluginEditorListener implements IPartListener2 {
             	            URI uri = ((IURIEditorInput)input).getURI();
             	            if (uri != null && uri.getPath() != null) {
             	                String currentFile = uri.getPath();
-            	                DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
-            	            	DateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
+            	                DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
             	            	Date date = new Date();
             	                
             	                try {
-            	                	List<String> lines = Arrays.asList("", "", "Paste_Action", "FileName: "+currentFile, 
-                    						"Date: "+dateFormat.format(date), "Time: "+timeFormat.format(date), "", "");
+            	                	Matcher m = Pattern.compile("(\r\n)|(\r)|(\n)").matcher(event.text.trim());
+            	                	int lineCount = 1;
+            	                	while (m.find())
+            	                	{
+            	                	    lineCount ++;
+            	                	}
+            	                	
+            	                	List<String> lines = Arrays.asList("", "", "Paste_Action", "FileName|"+currentFile, 
+                    						"PastedLines|"+lineCount, "DateTime|"+dateFormat.format(date), "", "");
             	                	
             	                	String temp = currentFile.split("/src")[0];
             	                	String[] folderNamesInWorkspace = temp.split("/");
