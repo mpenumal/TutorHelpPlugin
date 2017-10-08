@@ -117,6 +117,34 @@ public class Activator extends AbstractUIPlugin implements IStartup {
 	 */
 	public void stop(BundleContext context) throws Exception {
 		plugin = null;
+		
+		if (TutorPluginEditorListener.existingEditorList != null && !TutorPluginEditorListener.existingEditorList.isEmpty()) {
+			for (String editor : TutorPluginEditorListener.existingEditorList) {
+		        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		        Date date = new Date();
+		        
+	        	List<String> lines = Arrays.asList("", "", "Eclipse_Closed", "FileName|"+editor, 
+	        										"DateTime|"+dateFormat.format(date), "", "");
+
+	        	String temp = editor.split("/src")[0];
+	        	String[] folderNamesInWorkspace = temp.split("/");
+	        	String assignmentName = folderNamesInWorkspace[folderNamesInWorkspace.length-1];
+	        	
+	        	TutorPluginLogTracker.assignmentName = assignmentName;
+	        	
+	        	AssignmentQuestionsViewClient svc = new AssignmentQuestionsViewClient();
+		        try {
+					svc.sendLogClient(lines);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		
 		super.stop(context);
 		
 		IWorkbenchWindow window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
