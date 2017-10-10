@@ -35,9 +35,9 @@ public class AssignmentQuestionsViewClient {
 									File.separator + "AssignmentList_Cosmo_Client";
 		
 		// Local machine URL
-		URL url = new URL("http://localhost:8080/assignments");
+		//URL url = new URL("http://localhost:8080/assignments");
 		// Manohar AWS URL
-		//URL url = new URL("http://34.224.41.66:8080/assignments");
+		URL url = new URL("http://34.224.41.66:8080/assignments");
 		
 		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 		conn.setRequestMethod("GET");
@@ -144,8 +144,8 @@ public class AssignmentQuestionsViewClient {
 		List<String> outputFile = lines;
 		
 		// For local test
-	    studentId = "1111111119";
-	    courseName = "CSE360";
+	    //studentId = "1111111111";
+	    //courseName = "CSE360";
 		
 		File metaDataFile = new File(directoryPath + File.separator + assignmentName + "_" + courseName + "_" + "metadata" + ".txt");
 		if (metaDataFile.exists() && !metaDataFile.isDirectory()) {
@@ -165,9 +165,9 @@ public class AssignmentQuestionsViewClient {
 				jObj.put("outputFile", outputFile);
 				
 				// Local machine URL
-				URL url = new URL("http://localhost:8080/assignmentResults");
+				//URL url = new URL("http://localhost:8080/assignmentResults");
 				// Manohar AWS URL
-				//URL url = new URL("http://34.224.41.66:8080/assignmentResults");
+				URL url = new URL("http://34.224.41.66:8080/assignmentResults");
 				
 				HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 				conn.setDoOutput(true);
