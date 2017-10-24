@@ -34,6 +34,11 @@ public class AssignmentQuestionsViewClient {
 		String directoryPath = ResourcesPlugin.getWorkspace().getRoot().getLocation().toString() + 
 									File.separator + "AssignmentList_Cosmo_Client";
 		
+		String userCourseName = InteractiveSplashHandler.login_courseName;
+		
+		// For local test
+		//userCourseName = "CSE360";
+		
 		// Local machine URL
 		//URL url = new URL("http://localhost:8080/assignments");
 		// Manohar AWS URL
@@ -83,7 +88,8 @@ public class AssignmentQuestionsViewClient {
 					fileExtension = ".txt";
 				}
 				
-				if (!assignmentName.equals("Assignment00") && (currentDate.equals(startDate) || currentDate.after(startDate)) 
+				if (!assignmentName.equals("Assignment00") && (userCourseName.equals(courseName)) 
+						&& (currentDate.equals(startDate) || currentDate.after(startDate)) 
 						&& (currentDate.before(endDate) || currentDate.equals(endDate))) {
 					File temp1 = new File(directoryPath + File.separator + assignmentName + fileExtension);
 					if (!temp1.exists() || temp1.isDirectory()) {

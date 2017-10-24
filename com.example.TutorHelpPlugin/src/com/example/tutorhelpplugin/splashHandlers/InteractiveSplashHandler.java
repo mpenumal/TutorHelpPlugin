@@ -146,7 +146,8 @@ public class InteractiveSplashHandler extends AbstractSplashHandler {
 		
 		login_courseName = fTextCoursename.getText();
 		// Authentication is successful if a user provides ASU 10 digit userId and any password
-		if ((login_userName.length() == 10 && userId != 0) && (login_courseName.length() == 6)) {
+		if ((login_userName.length() == 10 && userId != 0) && 
+				(login_courseName.length() == 6)) {
 			fAuthenticated = true;
 		} else {
 			MessageDialog.openError(
